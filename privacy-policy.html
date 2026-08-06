@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - PromptNova</title>
+  <meta name="description" content="Read the PromptNova privacy policy, including information about data collection, AI processing, cookies, security, and user rights.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseLine {
+      0%, 100% { opacity: 0.45; transform: scaleX(0.94); }
+      50% { opacity: 1; transform: scaleX(1); }
+    }
+
+    .animate-fade-up {
+      animation: fadeUp 0.6s ease-out both;
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.76);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      box-shadow: 0 24px 80px rgba(2, 6, 23, 0.34);
+    }
+
+    .loading-line {
+      transform-origin: center;
+      animation: pulseLine 1.2s ease-in-out infinite;
+    }
+
+    .policy-content h2 {
+      margin-top: 2rem;
+      color: #ffffff;
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+
+    .policy-content p {
+      margin-top: 0.75rem;
+      color: #cbd5e1;
+      line-height: 1.8;
+    }
+
+    .policy-content ul {
+      margin-top: 0.75rem;
+      padding-left: 1.25rem;
+      color: #cbd5e1;
+      line-height: 1.8;
+      list-style: disc;
+    }
+
+    .policy-content a {
+      color: #67e8f9;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#08111f] text-slate-100 font-sans selection:bg-cyan-500 selection:text-white">
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.22),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_34%),linear-gradient(135deg,#08111f_0%,#101827_48%,#0b1220_100%)]"></div>
+    <div class="absolute left-0 right-0 top-20 h-px bg-cyan-300/20 loading-line"></div>
+  </div>
+
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-[#08111f]/88 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
+      <a href="index.html" class="flex items-center gap-3">
+        <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-cyan-500 text-white shadow-lg shadow-cyan-500/25">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </span>
+        <span class="text-xl font-black tracking-wide text-white">PromptNova</span>
+      </a>
+
+      <nav class="hidden items-center gap-7 text-sm font-semibold text-slate-300 md:flex">
+        <a href="index.html" class="transition hover:text-cyan-300">Home</a>
+        <a href="index.html#tools-section" class="transition hover:text-cyan-300">Tools</a>
+        <a href="about.html" class="transition hover:text-cyan-300">About</a>
+        <a href="privacy-policy.html" class="text-cyan-300">Privacy</a>
+      </nav>
+
+      <button type="button" onclick="toggleMobileMenu()" class="grid h-10 w-10 place-items-center rounded-lg border border-white/10 text-slate-200 md:hidden" aria-label="Toggle menu">
+        <i id="menu-icon" class="fa-solid fa-bars text-lg"></i>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden border-t border-white/10 bg-[#0b1220] px-5 py-4 md:hidden">
+      <div class="flex flex-col gap-4 text-sm font-semibold text-slate-300">
+        <a href="index.html" onclick="toggleMobileMenu()">Home</a>
+        <a href="index.html#tools-section" onclick="toggleMobileMenu()">Tools</a>
+        <a href="about.html" onclick="toggleMobileMenu()">About</a>
+        <a href="privacy-policy.html" onclick="toggleMobileMenu()" class="text-cyan-300">Privacy</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="px-4 py-16 md:px-8 md:py-20">
+      <div class="mx-auto max-w-5xl animate-fade-up">
+        <span class="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-cyan-200">
+          <i class="fa-solid fa-shield-halved"></i> Privacy Policy
+        </span>
+        <h1 class="mt-5 text-4xl font-black leading-tight text-white md:text-6xl">Privacy Policy</h1>
+        <p class="mt-5 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
+          This Privacy Policy explains how PromptNova collects, uses, protects, and handles information when you use our AI content generation tools.
+        </p>
+        <div class="mt-6 inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-bold text-slate-300">
+          <i class="fa-regular fa-calendar"></i>
+          Effective Date: August 6, 2026
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto grid max-w-7xl gap-6 px-4 pb-16 md:grid-cols-[0.34fr_0.66fr] md:px-8">
+      <aside class="h-fit rounded-2xl border border-white/10 bg-white/5 p-5 md:sticky md:top-24">
+        <h2 class="text-sm font-black uppercase tracking-[0.18em] text-cyan-300">Contents</h2>
+        <nav class="mt-4 grid gap-3 text-sm font-semibold text-slate-300">
+          <a href="#information" class="transition hover:text-cyan-300">Information We Collect</a>
+          <a href="#use" class="transition hover:text-cyan-300">How We Use Information</a>
+          <a href="#ai" class="transition hover:text-cyan-300">AI Processing</a>
+          <a href="#cookies" class="transition hover:text-cyan-300">Cookies</a>
+          <a href="#sharing" class="transition hover:text-cyan-300">Sharing</a>
+          <a href="#security" class="transition hover:text-cyan-300">Security</a>
+          <a href="#rights" class="transition hover:text-cyan-300">Your Rights</a>
+          <a href="#contact" class="transition hover:text-cyan-300">Contact</a>
+        </nav>
+      </aside>
+
+      <article class="glass-card policy-content rounded-2xl p-6 md:p-8">
+        <p>
+          PromptNova values your privacy. By using this website and its tools, you agree to the practices described in this Privacy Policy. If you do not agree with this policy, please do not use the website.
+        </p>
+
+        <h2 id="information">1. Information We Collect</h2>
+        <p>We may collect limited information when you use PromptNova, including:</p>
+        <ul>
+          <li>Text prompts, keywords, topics, or content ideas that you enter into our tools.</li>
+          <li>Basic technical data such as browser type, device type, approximate location, pages visited, and usage activity.</li>
+          <li>Information you voluntarily provide if you contact us, such as your name, email address, or message.</li>
+        </ul>
+        <p>
+          You should not enter sensitive personal information, passwords, private financial details, confidential business data, or any information that you do not want processed by AI services.
+        </p>
+
+        <h2 id="use">2. How We Use Information</h2>
+        <p>We use collected information to:</p>
+        <ul>
+          <li>Generate AI content based on your prompts.</li>
+          <li>Improve website performance, features, and user experience.</li>
+          <li>Monitor and prevent misuse, abuse, spam, or technical issues.</li>
+          <li>Respond to support requests, feedback, or contact messages.</li>
+          <li>Maintain security and reliability of the website.</li>
+        </ul>
+
+        <h2 id="ai">3. AI Content Processing</h2>
+        <p>
+          PromptNova uses third-party AI or API services to generate content. When you submit a prompt, that text may be sent to an external AI service for processing. The generated output is based on your input and the AI model response.
+        </p>
+        <p>
+          We do not guarantee that AI-generated content will always be accurate, original, complete, or suitable for every purpose. You are responsible for reviewing, editing, and verifying generated content before publishing or using it.
+        </p>
+
+        <h2 id="cookies">4. Cookies and Similar Technologies</h2>
+        <p>
+          PromptNova may use cookies, local storage, analytics tools, or similar technologies to improve functionality, remember preferences, analyze traffic, and understand how users interact with the website.
+        </p>
+        <p>
+          You can disable cookies through your browser settings. Some website features may not work properly if cookies or browser storage are disabled.
+        </p>
+
+        <h2 id="sharing">5. Information Sharing</h2>
+        <p>
+          We do not sell your personal information. We may share limited information only in the following situations:
+        </p>
+        <ul>
+          <li>With service providers that help operate the website, backend, AI processing, analytics, hosting, or security.</li>
+          <li>When required by law, regulation, legal process, or government request.</li>
+          <li>To protect the rights, safety, property, or security of PromptNova, users, or the public.</li>
+        </ul>
+
+        <h2 id="security">6. Data Security</h2>
+        <p>
+          We use reasonable technical and organizational measures to protect information from unauthorized access, misuse, loss, or disclosure. However, no website, server, or internet transmission is completely secure. Use the website at your own discretion.
+        </p>
+
+        <h2>7. Data Retention</h2>
+        <p>
+          We retain information only as long as necessary for website operation, legal compliance, security, analytics, or support purposes. AI processing providers may have their own data retention practices, which are governed by their respective policies.
+        </p>
+
+        <h2>8. Third-Party Links and Services</h2>
+        <p>
+          Our website may contain links to third-party websites or use third-party services. We are not responsible for the privacy practices, terms, or content of third-party websites. Please review their policies before using them.
+        </p>
+
+        <h2>9. Children’s Privacy</h2>
+        <p>
+          PromptNova is not intended for children under 13 years of age. We do not knowingly collect personal information from children. If you believe a child has provided personal information, please contact us so we can take appropriate action.
+        </p>
+
+        <h2 id="rights">10. Your Rights and Choices</h2>
+        <p>
+          Depending on your location, you may have rights to access, correct, delete, restrict, or object to certain uses of your personal information. You may also request that we stop contacting you if you have previously reached out or subscribed to communications.
+        </p>
+
+        <h2>11. Changes to This Privacy Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date. Continued use of PromptNova after changes means you accept the updated policy.
+        </p>
+
+        <h2 id="contact">12. Contact Us</h2>
+        <p>
+          If you have questions about this Privacy Policy or how your information is handled, you can contact us through the contact section of the website.
+        </p>
+        <p>
+          Website: <a href="index.html">PromptNova</a>
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-[#07101d]/80 px-4 py-8 md:px-8">
+    <div class="mx-auto flex max-w-7xl flex-col gap-4 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
+      <div class="font-bold text-slate-200">PromptNova <span class="font-normal text-slate-500">© 2026. All rights reserved.</span></div>
+      <div class="flex flex-wrap gap-5">
+        <a href="index.html" class="transition hover:text-cyan-300">Home</a>
+        <a href="about.html" class="transition hover:text-cyan-300">About</a>
+        <a href="privacy-policy.html" class="transition hover:text-cyan-300">Privacy Policy</a>
+        <a href="#" class="transition hover:text-cyan-300">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById("mobile-menu");
+      const icon = document.getElementById("menu-icon");
+      menu.classList.toggle("hidden");
+      icon.className = menu.classList.contains("hidden") ? "fa-solid fa-bars text-lg" : "fa-solid fa-xmark text-lg";
+    }
+  </script>
+</body>
+</html>
