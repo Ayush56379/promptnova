@@ -1,287 +1,524 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PromptNova - AI Content Generation Tools</title>
-<meta name="description" content="Generate YouTube titles, descriptions, tags, blogs and Instagram captions instantly using AI.">
-<!-- Tailwind CSS for styling and responsiveness -->
-<script src="https://cdn.tailwindcss.com"></script>
-<!-- FontAwesome for Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fade {
-    animation: fadeIn 0.4s ease-out forwards;
-  }
-  .glass-card {
-    background: rgba(24, 35, 63, 0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PromptNova - AI Content Generation Tools</title>
+  <meta name="description" content="Generate YouTube titles, descriptions, tags, blogs, Instagram captions and SEO metadata instantly using AI.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floatSoft {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulseLine {
+      0%, 100% { opacity: 0.45; transform: scaleX(0.94); }
+      50% { opacity: 1; transform: scaleX(1); }
+    }
+
+    .animate-fade-up {
+      animation: fadeUp 0.55s ease-out both;
+    }
+
+    .animate-float-soft {
+      animation: floatSoft 4.5s ease-in-out infinite;
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.74);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      box-shadow: 0 24px 80px rgba(2, 6, 23, 0.34);
+    }
+
+    .tool-btn {
+      min-height: 112px;
+    }
+
+    .tool-btn.active {
+      border-color: rgba(34, 211, 238, 0.9);
+      background: linear-gradient(145deg, rgba(8, 145, 178, 0.28), rgba(37, 99, 235, 0.16));
+      color: #67e8f9;
+      transform: translateY(-2px);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 18px rgba(34, 197, 94, 0.9);
+    }
+
+    .loading-line {
+      transform-origin: center;
+      animation: pulseLine 1.1s ease-in-out infinite;
+    }
+  </style>
 </head>
-<body class="bg-[#0b1020] text-slate-100 font-sans min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white">
-
-<!-- Header / Navbar -->
-<header class="sticky top-0 z-50 bg-[#11182d]/90 backdrop-blur-md border-b border-slate-800 px-4 md:px-12 py-4 flex justify-between items-center transition-all">
-  <div class="flex items-center gap-2 cursor-pointer" onclick="switchTool('youtube_title', 'YouTube Title Generator')">
-    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
-      <i class="fa-solid fa-wand-magic-sparkles text-white"></i>
-    </div>
-    <span class="text-xl font-bold tracking-wide bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">PromptNova</span>
-  </div>
-  
-  <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
-    <a href="#tools-section" class="hover:text-cyan-400 transition-colors">Tools</a>
-    <a href="#features" class="hover:text-cyan-400 transition-colors">Features</a>
-    <a href="#about" class="hover:text-cyan-400 transition-colors">About</a>
-  </nav>
-
-  <div class="md:hidden">
-    <button onclick="toggleMobileMenu()" class="text-slate-300 focus:outline-none p-2">
-      <i id="menu-icon" class="fa-solid fa-bars text-xl"></i>
-    </button>
-  </div>
-</header>
-
-<!-- Mobile Dropdown Menu -->
-<div id="mobile-menu" class="hidden md:hidden bg-[#11182d] border-b border-slate-800 px-6 py-4 flex flex-col gap-4 text-slate-300">
-  <a href="#tools-section" onclick="toggleMobileMenu()" class="hover:text-cyan-400">Tools</a>
-  <a href="#features" onclick="toggleMobileMenu()" class="hover:text-cyan-400">Features</a>
-  <a href="#about" onclick="toggleMobileMenu()" class="hover:text-cyan-400">About</a>
-</div>
-
-<!-- Hero Section -->
-<section class="relative overflow-hidden py-16 md:py-24 px-4 text-center bg-gradient-to-b from-[#172554]/40 via-[#0b1020] to-[#0b1020]">
-  <div class="max-w-3xl mx-auto space-y-6 animate-fade">
-    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-      <i class="fa-solid fa-bolt"></i> Powered by Advanced AI
-    </span>
-    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
-      Create Better Content <br><span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">In Seconds</span>
-    </h1>
-    <p class="text-slate-400 text-base md:text-lg max-w-xl mx-auto">
-      Generate high-performing YouTube titles, engaging descriptions, trending tags, and full blogs instantly.
-    </p>
-    <div class="pt-4">
-      <a href="#tools-section" class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-medium px-8 py-3.5 rounded-xl shadow-lg shadow-cyan-500/25 transition-all transform hover:-translate-y-0.5">
-        <span>Explore Tools</span>
-        <i class="fa-solid fa-arrow-down text-sm"></i>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- Main App & Tools Section -->
-<main id="tools-section" class="max-w-6xl mx-auto px-4 py-12 flex-grow w-full">
-  
-  <!-- Section Header -->
-  <div class="text-center mb-10">
-    <h2 class="text-2xl md:text-3xl font-bold">Select Your AI Tool</h2>
-    <p class="text-slate-400 text-sm mt-1">Click on any card below to switch generators instantly.</p>
+<body class="min-h-screen bg-[#08111f] text-slate-100 font-sans selection:bg-cyan-500 selection:text-white">
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.22),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_34%),linear-gradient(135deg,#08111f_0%,#101827_48%,#0b1220_100%)]"></div>
+    <div class="absolute left-0 right-0 top-20 h-px bg-cyan-300/20 loading-line"></div>
   </div>
 
-  <!-- Interactive Grid Tools -->
-  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-10">
-    <button onclick="switchTool('youtube_title', 'YouTube Title Generator')" id="btn-youtube_title" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl glass-card transition-all border-cyan-500 bg-cyan-500/10 text-cyan-400">
-      <i class="fa-brands fa-youtube text-2xl mb-2"></i>
-      <span class="text-xs font-semibold text-center">YT Titles</span>
-    </button>
-    <button onclick="switchTool('youtube_description', 'YouTube Description Generator')" id="btn-youtube_description" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl glass-card transition-all hover:bg-slate-800/60 text-slate-300">
-      <i class="fa-solid fa-align-left text-2xl mb-2"></i>
-      <span class="text-xs font-semibold text-center">YT Description</span>
-    </button>
-    <button onclick="switchTool('youtube_tags', 'YouTube Tags Generator')" id="btn-youtube_tags" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl glass-card transition-all hover:bg-slate-800/60 text-slate-300">
-      <i class="fa-solid fa-tags text-2xl mb-2"></i>
-      <span class="text-xs font-semibold text-center">YT Tags</span>
-    </button>
-    <button onclick="switchTool('blog', 'SEO Blog Writer')" id="btn-blog" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl glass-card transition-all hover:bg-slate-800/60 text-slate-300">
-      <i class="fa-solid fa-pen-nib text-2xl mb-2"></i>
-      <span class="text-xs font-semibold text-center">Blog Writer</span>
-    </button>
-    <button onclick="switchTool('instagram', 'Instagram Caption Generator')" id="btn-instagram" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl glass-card transition-all hover:bg-slate-800/60 text-slate-300">
-      <i class="fa-brands fa-instagram text-2xl mb-2"></i>
-      <span class="text-xs font-semibold text-center">IG Caption</span>
-    </button>
-    <button onclick="switchTool('meta_title', 'SEO Meta Title Generator')" id="btn-meta_title" class="tool-btn flex flex-col items-center justify-center p-4 rounded-xl glass-card transition-all hover:bg-slate-800/60 text-slate-300">
-      <i class="fa-solid fa-globe text-2xl mb-2"></i>
-      <span class="text-xs font-semibold text-center">Meta Title</span>
-    </button>
-  </div>
-
-  <!-- Generator Box Workspace -->
-  <div class="glass-card rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden animate-fade">
-    <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-4">
-      <h3 id="current-tool-title" class="text-lg md:text-xl font-bold text-cyan-400 flex items-center gap-2">
-        <i class="fa-solid fa-microchip"></i> YouTube Title Generator
-      </h3>
-      <span class="text-xs px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 font-medium">Ready</span>
-    </div>
-
-    <div class="space-y-4">
-      <div>
-        <label for="prompt" class="block text-sm font-medium text-slate-300 mb-1">Enter your topic, keyword or idea:</label>
-        <input id="prompt" type="text" placeholder="e.g. How to grow on YouTube fast in 2026..." class="w-full bg-[#0b1020] border border-slate-700/80 rounded-xl px-4 py-3.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-all text-sm md:text-base">
-      </div>
-
-      <button onclick="generate()" id="generate-btn" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2 cursor-pointer">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        <span>Generate Content</span>
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-[#08111f]/88 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
+      <button type="button" class="flex items-center gap-3" onclick="scrollToTools()">
+        <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-cyan-500 text-white shadow-lg shadow-cyan-500/25">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </span>
+        <span class="text-xl font-black tracking-wide text-white">PromptNova</span>
       </button>
 
-      <div class="relative pt-2">
-        <div class="flex justify-between items-center mb-1">
-          <label for="result" class="text-sm font-medium text-slate-300">Generated Output:</label>
-          <button onclick="copyResult()" class="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1 transition-colors">
-            <i class="fa-regular fa-copy"></i> Copy Text
-          </button>
+      <nav class="hidden items-center gap-7 text-sm font-semibold text-slate-300 md:flex">
+        <a href="#tools-section" class="transition hover:text-cyan-300">Tools</a>
+        <a href="#features" class="transition hover:text-cyan-300">Features</a>
+        <a href="#how-it-works" class="transition hover:text-cyan-300">How it works</a>
+        <a href="#about" class="transition hover:text-cyan-300">About</a>
+      </nav>
+
+      <button type="button" onclick="toggleMobileMenu()" class="grid h-10 w-10 place-items-center rounded-lg border border-white/10 text-slate-200 md:hidden" aria-label="Toggle menu">
+        <i id="menu-icon" class="fa-solid fa-bars text-lg"></i>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden border-t border-white/10 bg-[#0b1220] px-5 py-4 md:hidden">
+      <div class="flex flex-col gap-4 text-sm font-semibold text-slate-300">
+        <a href="#tools-section" onclick="toggleMobileMenu()">Tools</a>
+        <a href="#features" onclick="toggleMobileMenu()">Features</a>
+        <a href="#how-it-works" onclick="toggleMobileMenu()">How it works</a>
+        <a href="#about" onclick="toggleMobileMenu()">About</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="relative overflow-hidden px-4 py-14 md:px-8 md:py-20">
+      <div class="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.04fr_0.96fr]">
+        <div class="animate-fade-up">
+          <span class="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-cyan-200">
+            <i class="fa-solid fa-bolt"></i> Fast AI content suite
+          </span>
+          <h1 class="mt-5 max-w-3xl text-4xl font-black leading-tight text-white md:text-6xl">
+            Create publish-ready content in seconds
+          </h1>
+          <p class="mt-5 max-w-2xl text-base leading-7 text-slate-300 md:text-lg">
+            YouTube titles, descriptions, tags, SEO blogs, Instagram captions and meta content in one clean generator.
+          </p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <button type="button" onclick="scrollToTools()" class="inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-500 px-6 py-3 font-bold text-white shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-400">
+              <span>Start Generating</span>
+              <i class="fa-solid fa-arrow-down"></i>
+            </button>
+            <button type="button" onclick="fillExample()" class="inline-flex items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/5 px-6 py-3 font-bold text-slate-100 transition hover:bg-white/10">
+              <i class="fa-solid fa-play"></i>
+              <span>Try Example</span>
+            </button>
+          </div>
         </div>
-        <textarea id="result" rows="8" readonly placeholder="Your AI generated results will appear here instantly..." class="w-full bg-[#0b1020] border border-slate-700/80 rounded-xl p-4 text-slate-100 placeholder-slate-600 focus:outline-none text-sm font-mono resize-y"></textarea>
+
+        <div class="glass-card animate-float-soft rounded-2xl p-5">
+          <div class="rounded-xl border border-white/10 bg-[#07101d] p-4">
+            <div class="mb-4 flex items-center justify-between">
+              <div class="flex items-center gap-2 text-sm font-bold text-slate-200">
+                <span class="status-dot"></span>
+                AI Workspace Online
+              </div>
+              <span class="rounded-md bg-emerald-400/10 px-2 py-1 text-xs font-bold text-emerald-300">Live</span>
+            </div>
+            <div class="space-y-3">
+              <div class="h-3 w-11/12 rounded-full bg-slate-700"></div>
+              <div class="h-3 w-9/12 rounded-full bg-slate-700"></div>
+              <div class="h-3 w-10/12 rounded-full bg-cyan-400/50"></div>
+              <div class="mt-5 grid grid-cols-2 gap-3">
+                <div class="rounded-lg bg-white/5 p-4">
+                  <i class="fa-brands fa-youtube text-2xl text-red-400"></i>
+                  <p class="mt-3 text-sm font-bold">Creator Tools</p>
+                </div>
+                <div class="rounded-lg bg-white/5 p-4">
+                  <i class="fa-solid fa-chart-line text-2xl text-emerald-300"></i>
+                  <p class="mt-3 text-sm font-bold">SEO Ready</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tools-section" class="mx-auto max-w-7xl px-4 py-10 md:px-8">
+      <div class="mb-7 flex flex-col justify-between gap-3 md:flex-row md:items-end">
+        <div>
+          <h2 class="text-2xl font-black text-white md:text-3xl">AI Tools</h2>
+          <p class="mt-2 text-sm text-slate-400">Choose a generator, enter your topic, and get clean output instantly.</p>
+        </div>
+        <div id="connection-status" class="inline-flex w-fit items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-bold text-slate-300">
+          <span class="status-dot"></span>
+          Backend ready
+        </div>
+      </div>
+
+      <div id="tool-grid" class="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-7"></div>
+
+      <div class="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+        <section class="glass-card rounded-2xl p-5 md:p-6">
+          <div class="mb-5 flex items-start justify-between gap-4 border-b border-white/10 pb-4">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-[0.18em] text-cyan-300">Selected Tool</p>
+              <h3 id="current-tool-title" class="mt-1 text-xl font-black text-white">YouTube Title Generator</h3>
+            </div>
+            <i id="current-tool-icon" class="fa-brands fa-youtube text-2xl text-cyan-300"></i>
+          </div>
+
+          <label for="prompt" class="text-sm font-bold text-slate-200">Topic, keyword or idea</label>
+          <textarea id="prompt" rows="5" placeholder="e.g. How to grow a YouTube channel fast in 2026" class="mt-2 w-full resize-y rounded-lg border border-slate-700 bg-[#07101d] px-4 py-3 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-cyan-400"></textarea>
+
+          <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <button type="button" onclick="generate()" id="generate-btn" class="sm:col-span-2 inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-500 px-5 py-3 font-black text-white shadow-lg shadow-cyan-500/20 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-70">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>Generate</span>
+            </button>
+            <button type="button" onclick="clearAll()" class="inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-5 py-3 font-bold text-slate-100 transition hover:bg-white/10">
+              <i class="fa-solid fa-rotate-right"></i>
+              <span>Clear</span>
+            </button>
+          </div>
+
+          <div class="mt-4 rounded-lg border border-amber-300/15 bg-amber-300/8 p-3 text-xs leading-5 text-amber-100">
+            <i class="fa-solid fa-circle-info mr-1"></i>
+            For best results, add audience, tone, platform, and main keyword in your prompt.
+          </div>
+        </section>
+
+        <section class="glass-card rounded-2xl p-5 md:p-6">
+          <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-[0.18em] text-cyan-300">Generated Output</p>
+              <p id="result-meta" class="mt-1 text-sm text-slate-400">Waiting for your prompt</p>
+            </div>
+            <div class="flex gap-2">
+              <button type="button" onclick="copyResult()" class="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/5 text-slate-100 transition hover:bg-white/10" title="Copy output" aria-label="Copy output">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+              <button type="button" onclick="downloadResult()" class="grid h-10 w-10 place-items-center rounded-lg border border-white/10 bg-white/5 text-slate-100 transition hover:bg-white/10" title="Download output" aria-label="Download output">
+                <i class="fa-solid fa-download"></i>
+              </button>
+            </div>
+          </div>
+          <textarea id="result" rows="16" readonly placeholder="Your AI generated result will appear here..." class="w-full resize-y rounded-lg border border-slate-700 bg-[#07101d] p-4 font-mono text-sm leading-6 text-slate-100 outline-none placeholder:text-slate-600"></textarea>
+        </section>
+      </div>
+    </section>
+
+    <section id="features" class="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 py-12 md:grid-cols-3 md:px-8">
+      <article class="glass-card rounded-2xl p-6">
+        <i class="fa-solid fa-bolt-lightning text-2xl text-cyan-300"></i>
+        <h3 class="mt-4 text-lg font-black">Fast Response</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-400">Optimized prompts, practical token limits, and smooth loading states keep the app feeling quick.</p>
+      </article>
+      <article class="glass-card rounded-2xl p-6">
+        <i class="fa-solid fa-shield-halved text-2xl text-emerald-300"></i>
+        <h3 class="mt-4 text-lg font-black">Backend Protected</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-400">The browser calls your Apps Script endpoint while the Groq API key stays in script properties.</p>
+      </article>
+      <article class="glass-card rounded-2xl p-6">
+        <i class="fa-solid fa-mobile-screen text-2xl text-sky-300"></i>
+        <h3 class="mt-4 text-lg font-black">Responsive UI</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-400">Every section, button, and output area is designed to work smoothly on mobile and desktop.</p>
+      </article>
+    </section>
+
+    <section id="how-it-works" class="mx-auto max-w-7xl px-4 py-12 md:px-8">
+      <div class="glass-card rounded-2xl p-6 md:p-8">
+        <h2 class="text-2xl font-black text-white">How it works</h2>
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+          <div class="rounded-xl border border-white/10 bg-white/5 p-5">
+            <span class="text-sm font-black text-cyan-300">01</span>
+            <h3 class="mt-3 font-black">Select Tool</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-400">Pick the content type you want to generate.</p>
+          </div>
+          <div class="rounded-xl border border-white/10 bg-white/5 p-5">
+            <span class="text-sm font-black text-cyan-300">02</span>
+            <h3 class="mt-3 font-black">Enter Prompt</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-400">Add your topic, keyword, audience, or tone.</p>
+          </div>
+          <div class="rounded-xl border border-white/10 bg-white/5 p-5">
+            <span class="text-sm font-black text-cyan-300">03</span>
+            <h3 class="mt-3 font-black">Use Output</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-400">Copy or download your ready-to-use result.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="mx-auto max-w-7xl px-4 py-12 md:px-8">
+      <div class="max-w-3xl">
+        <h2 class="text-2xl font-black text-white">About PromptNova</h2>
+        <p class="mt-3 leading-7 text-slate-300">
+          PromptNova is a simple AI content workspace for creators, bloggers, marketers, and business owners who need useful copy without switching between multiple tools.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-[#07101d]/80 px-4 py-8 md:px-8">
+    <div class="mx-auto flex max-w-7xl flex-col gap-4 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
+      <div class="font-bold text-slate-200">PromptNova <span class="font-normal text-slate-500">© 2026</span></div>
+      <div class="flex flex-wrap gap-5">
+        <a href="#" class="transition hover:text-cyan-300">Privacy Policy</a>
+        <a href="#" class="transition hover:text-cyan-300">Terms</a>
+        <a href="#" class="transition hover:text-cyan-300">Contact</a>
       </div>
     </div>
-  </div>
+  </footer>
 
-  <!-- Features Info Section (Helps in AdSense Approval) -->
-  <section id="features" class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-    <div class="glass-card p-6 rounded-xl">
-      <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-4 text-lg">
-        <i class="fa-solid fa-bolt-lightning"></i>
-      </div>
-      <h4 class="font-bold text-base mb-2">Lightning Fast</h4>
-      <p class="text-slate-400 text-sm">Powered by optimized cloud architecture and high-performance endpoints for instant responses.</p>
-    </div>
-    <div class="glass-card p-6 rounded-xl">
-      <div class="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center mb-4 text-lg">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-      <h4 class="font-bold text-base mb-2">100% Secure</h4>
-      <p class="text-slate-400 text-sm">All API keys and confidential processes run safely on backend servers, keeping your platform hacker-proof.</p>
-    </div>
-    <div class="glass-card p-6 rounded-xl">
-      <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4 text-lg">
-        <i class="fa-solid fa-mobile-screen"></i>
-      </div>
-      <h4 class="font-bold text-base mb-2">Mobile Optimized</h4>
-      <p class="text-slate-400 text-sm">Designed with a responsive layout so users can access your creation tools smoothly from smartphones or PCs.</p>
-    </div>
-  </section>
-</main>
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbwiNBU6vZlzw46nrnP92ntYgH_JNPbJtbxWM7yWW1aYH0N9lp_yxOMcbusvSf-uX116nA/exec";
 
-<!-- Footer -->
-<footer class="bg-[#11182d] border-t border-slate-800 text-slate-400 py-8 px-4 mt-20">
-  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
-    <div class="flex items-center gap-2">
-      <span class="font-bold text-slate-200">PromptNova</span>
-      <span>© 2026. All rights reserved.</span>
-    </div>
-    <div class="flex items-center gap-6">
-      <a href="#" class="hover:text-cyan-400 transition-colors">Privacy Policy</a>
-      <a href="#" class="hover:text-cyan-400 transition-colors">Terms of Service</a>
-      <a href="#" class="hover:text-cyan-400 transition-colors">Contact Us</a>
-    </div>
-  </div>
-</footer>
+    const tools = [
+      {
+        key: "youtube_title",
+        name: "YouTube Title Generator",
+        short: "YT Titles",
+        icon: "fa-brands fa-youtube",
+        example: "AI video editing tools for beginner creators in 2026",
+        placeholder: "Enter video topic, niche, or main keyword..."
+      },
+      {
+        key: "youtube_description",
+        name: "YouTube Description Generator",
+        short: "YT Description",
+        icon: "fa-solid fa-align-left",
+        example: "A tutorial about starting a faceless YouTube channel",
+        placeholder: "Enter video topic and what viewers will learn..."
+      },
+      {
+        key: "youtube_tags",
+        name: "YouTube Tags Generator",
+        short: "YT Tags",
+        icon: "fa-solid fa-tags",
+        example: "Budget gaming laptop review for students",
+        placeholder: "Enter your video title or target keyword..."
+      },
+      {
+        key: "blog",
+        name: "SEO Blog Writer",
+        short: "Blog Writer",
+        icon: "fa-solid fa-pen-nib",
+        example: "Best AI tools for small businesses with low budget",
+        placeholder: "Enter blog title, primary keyword, and audience..."
+      },
+      {
+        key: "instagram",
+        name: "Instagram Caption Generator",
+        short: "IG Caption",
+        icon: "fa-brands fa-instagram",
+        example: "New cafe opening reel with cozy ambience and latte art",
+        placeholder: "Enter photo, reel, product, or campaign context..."
+      },
+      {
+        key: "meta_title",
+        name: "SEO Meta Title Generator",
+        short: "Meta Title",
+        icon: "fa-solid fa-heading",
+        example: "Online logo maker for startups",
+        placeholder: "Enter page topic and target keyword..."
+      },
+      {
+        key: "meta_description",
+        name: "SEO Meta Description Generator",
+        short: "Meta Desc",
+        icon: "fa-solid fa-magnifying-glass-chart",
+        example: "AI resume builder for freshers",
+        placeholder: "Enter page topic, keyword, and offer..."
+      }
+    ];
 
-<!-- JavaScript Logic -->
-<script>
-const API_URL = "https://script.google.com/macros/s/AKfycbwiNBU6vZlzw46nrnP92ntYgH_JNPbJtbxWM7yWW1aYH0N9lp_yxOMcbusvSf-uX116nA/exec";
+    let activeTool = tools[0].key;
+    let abortController = null;
 
-let activeTool = "youtube_title";
+    const elements = {};
 
-function switchTool(toolKey, toolName) {
-  activeTool = toolKey;
-  
-  // Update header text in workspace
-  document.getElementById("current-tool-title").innerHTML = `<i class="fa-solid fa-microchip"></i> ${toolName}`;
-  
-  // Update input placeholder based on selection
-  const promptInput = document.getElementById("prompt");
-  if(toolKey.includes('youtube')) {
-    promptInput.placeholder = "Enter video title or topic (e.g. Vlogging setup under 10000)";
-  } else if(toolKey === 'blog') {
-    promptInput.placeholder = "Enter blog main topic or title keyword...";
-  } else if(toolKey === 'instagram') {
-    promptInput.placeholder = "Enter photo/video context or short topic...";
-  } else {
-    promptInput.placeholder = "Enter your primary target keyword...";
-  }
+    document.addEventListener("DOMContentLoaded", () => {
+      elements.grid = document.getElementById("tool-grid");
+      elements.prompt = document.getElementById("prompt");
+      elements.result = document.getElementById("result");
+      elements.generateBtn = document.getElementById("generate-btn");
+      elements.title = document.getElementById("current-tool-title");
+      elements.icon = document.getElementById("current-tool-icon");
+      elements.meta = document.getElementById("result-meta");
+      elements.connection = document.getElementById("connection-status");
 
-  // Highlight selected tool button
-  document.querySelectorAll('.tool-btn').forEach(btn => {
-    btn.classList.remove('border-cyan-500', 'bg-cyan-500/10', 'text-cyan-400');
-    btn.classList.add('hover:bg-slate-800/60', 'text-slate-300');
-  });
-
-  const selectedBtn = document.getElementById(`btn-${toolKey}`);
-  if(selectedBtn) {
-    selectedBtn.classList.remove('hover:bg-slate-800/60', 'text-slate-300');
-    selectedBtn.classList.add('border-cyan-500', 'bg-cyan-500/10', 'text-cyan-400');
-  }
-
-  // Clear previous outputs
-  document.getElementById("prompt").value = "";
-  document.getElementById("result").value = "";
-}
-
-function toggleMobileMenu() {
-  const menu = document.getElementById("mobile-menu");
-  const icon = document.getElementById("menu-icon");
-  menu.classList.toggle("hidden");
-  if(menu.classList.contains("hidden")) {
-    icon.className = "fa-solid fa-bars text-xl";
-  } else {
-    icon.className = "fa-solid fa-xmark text-xl";
-  }
-}
-
-async function generate() {
-  const prompt = document.getElementById("prompt").value.trim();
-  const resultArea = document.getElementById("result");
-  const generateBtn = document.getElementById("generate-btn");
-
-  if (!prompt) {
-    alert("Please enter a topic or keyword first!");
-    document.getElementById("prompt").focus();
-    return;
-  }
-
-  // UI Loading State
-  generateBtn.disabled = true;
-  generateBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Generating...</span>`;
-  resultArea.value = "AI is crafting your content, please wait...";
-
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ tool: activeTool, prompt })
+      renderTools();
+      switchTool(activeTool);
+      healthCheck();
     });
 
-    const data = await res.json();
-    resultArea.value = data.result || data.message || JSON.stringify(data);
+    function renderTools() {
+      elements.grid.innerHTML = tools.map((tool) => `
+        <button type="button" id="btn-${tool.key}" onclick="switchTool('${tool.key}')" class="tool-btn glass-card rounded-xl p-4 text-left text-slate-300 transition hover:-translate-y-0.5 hover:bg-white/8">
+          <i class="${tool.icon} text-2xl"></i>
+          <span class="mt-3 block text-xs font-black">${tool.short}</span>
+        </button>
+      `).join("");
+    }
 
-  } catch (e) {
-    resultArea.value = "Error connecting to server: " + e.message;
-  } finally {
-    // Reset Button State
-    generateBtn.disabled = false;
-    generateBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i><span>Generate Content</span>`;
-  }
-}
+    function switchTool(toolKey) {
+      const tool = tools.find((item) => item.key === toolKey) || tools[0];
+      activeTool = tool.key;
+      elements.title.textContent = tool.name;
+      elements.icon.className = `${tool.icon} text-2xl text-cyan-300`;
+      elements.prompt.placeholder = tool.placeholder;
 
-function copyResult() {
-  const resultArea = document.getElementById("result");
-  if(!resultArea.value.trim()) {
-    alert("No content available to copy!");
-    return;
-  }
-  navigator.clipboard.writeText(resultArea.value);
-  alert("Result copied to clipboard!");
-}
-</script>
+      document.querySelectorAll(".tool-btn").forEach((btn) => btn.classList.remove("active"));
+      const selected = document.getElementById(`btn-${tool.key}`);
+      if (selected) selected.classList.add("active");
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById("mobile-menu");
+      const icon = document.getElementById("menu-icon");
+      menu.classList.toggle("hidden");
+      icon.className = menu.classList.contains("hidden") ? "fa-solid fa-bars text-lg" : "fa-solid fa-xmark text-lg";
+    }
+
+    function scrollToTools() {
+      document.getElementById("tools-section").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function fillExample() {
+      const tool = tools.find((item) => item.key === activeTool) || tools[0];
+      elements.prompt.value = tool.example;
+      scrollToTools();
+      elements.prompt.focus();
+    }
+
+    async function healthCheck() {
+      try {
+        const response = await fetch(API_URL, { method: "GET", cache: "no-store" });
+        if (!response.ok) throw new Error("Backend unavailable");
+        setConnectionStatus("Backend ready", true);
+      } catch (error) {
+        setConnectionStatus("Backend check failed", false);
+      }
+    }
+
+    async function generate() {
+      const prompt = elements.prompt.value.trim();
+      if (!prompt) {
+        setResult("Please enter a topic or keyword first.", "Prompt required");
+        elements.prompt.focus();
+        return;
+      }
+
+      if (abortController) abortController.abort();
+      abortController = new AbortController();
+
+      setLoading(true);
+      setResult("Generating your content...\n\nPlease wait while PromptNova prepares a polished result.", "Generating");
+
+      try {
+        const data = await requestContent(prompt, abortController.signal);
+        if (!data.success) {
+          throw new Error(data.message || "Generation failed.");
+        }
+        setResult(data.result || "No result returned. Please try again.", "Generated successfully");
+      } catch (error) {
+        if (error.name === "AbortError") return;
+        setResult("Server connection failed: " + error.message + "\n\nTip: Make sure your Apps Script web app is deployed with access set to Anyone.", "Error");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    async function requestContent(prompt, signal) {
+      const payload = JSON.stringify({ tool: activeTool, prompt });
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: payload,
+          signal
+        });
+        return await response.json();
+      } catch (postError) {
+        const url = `${API_URL}?tool=${encodeURIComponent(activeTool)}&prompt=${encodeURIComponent(prompt)}&t=${Date.now()}`;
+        const response = await fetch(url, { method: "GET", cache: "no-store", signal });
+        return await response.json();
+      }
+    }
+
+    function setLoading(isLoading) {
+      elements.generateBtn.disabled = isLoading;
+      elements.generateBtn.innerHTML = isLoading
+        ? '<i class="fa-solid fa-spinner fa-spin"></i><span>Generating...</span>'
+        : '<i class="fa-solid fa-wand-magic-sparkles"></i><span>Generate</span>';
+    }
+
+    function setResult(value, meta) {
+      elements.result.value = value;
+      elements.meta.textContent = meta;
+    }
+
+    async function copyResult() {
+      const value = elements.result.value.trim();
+      if (!value) {
+        setResult("No content available to copy yet.", "Nothing to copy");
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(value);
+        elements.meta.textContent = "Copied to clipboard";
+      } catch (error) {
+        elements.result.select();
+        document.execCommand("copy");
+        elements.meta.textContent = "Copied";
+      }
+    }
+
+    function downloadResult() {
+      const value = elements.result.value.trim();
+      if (!value) {
+        setResult("No content available to download yet.", "Nothing to download");
+        return;
+      }
+
+      const tool = tools.find((item) => item.key === activeTool) || tools[0];
+      const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `${tool.key}-promptnova.txt`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(link.href);
+      elements.meta.textContent = "Downloaded";
+    }
+
+    function clearAll() {
+      elements.prompt.value = "";
+      setResult("", "Waiting for your prompt");
+      elements.prompt.focus();
+    }
+
+    function setConnectionStatus(text, isReady) {
+      elements.connection.innerHTML = `<span class="status-dot" style="background:${isReady ? "#22c55e" : "#f59e0b"}"></span>${text}`;
+    }
+  </script>
 </body>
- </html>
+</html>
