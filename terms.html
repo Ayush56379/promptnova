@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service - PromptNova</title>
+  <meta name="description" content="Read the PromptNova Terms of Service, including acceptable use, AI content disclaimers, user responsibilities, and limitations.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulseLine {
+      0%, 100% { opacity: 0.45; transform: scaleX(0.94); }
+      50% { opacity: 1; transform: scaleX(1); }
+    }
+
+    .animate-fade-up {
+      animation: fadeUp 0.6s ease-out both;
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.76);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      box-shadow: 0 24px 80px rgba(2, 6, 23, 0.34);
+    }
+
+    .loading-line {
+      transform-origin: center;
+      animation: pulseLine 1.2s ease-in-out infinite;
+    }
+
+    .terms-content h2 {
+      margin-top: 2rem;
+      color: #ffffff;
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+
+    .terms-content p {
+      margin-top: 0.75rem;
+      color: #cbd5e1;
+      line-height: 1.8;
+    }
+
+    .terms-content ul {
+      margin-top: 0.75rem;
+      padding-left: 1.25rem;
+      color: #cbd5e1;
+      line-height: 1.8;
+      list-style: disc;
+    }
+
+    .terms-content a {
+      color: #67e8f9;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#08111f] text-slate-100 font-sans selection:bg-cyan-500 selection:text-white">
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.22),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_34%),linear-gradient(135deg,#08111f_0%,#101827_48%,#0b1220_100%)]"></div>
+    <div class="absolute left-0 right-0 top-20 h-px bg-cyan-300/20 loading-line"></div>
+  </div>
+
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-[#08111f]/88 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
+      <a href="index.html" class="flex items-center gap-3">
+        <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-cyan-500 text-white shadow-lg shadow-cyan-500/25">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </span>
+        <span class="text-xl font-black tracking-wide text-white">PromptNova</span>
+      </a>
+
+      <nav class="hidden items-center gap-7 text-sm font-semibold text-slate-300 md:flex">
+        <a href="index.html" class="transition hover:text-cyan-300">Home</a>
+        <a href="index.html#tools-section" class="transition hover:text-cyan-300">Tools</a>
+        <a href="about.html" class="transition hover:text-cyan-300">About</a>
+        <a href="privacy-policy.html" class="transition hover:text-cyan-300">Privacy</a>
+        <a href="terms.html" class="text-cyan-300">Terms</a>
+      </nav>
+
+      <button type="button" onclick="toggleMobileMenu()" class="grid h-10 w-10 place-items-center rounded-lg border border-white/10 text-slate-200 md:hidden" aria-label="Toggle menu">
+        <i id="menu-icon" class="fa-solid fa-bars text-lg"></i>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden border-t border-white/10 bg-[#0b1220] px-5 py-4 md:hidden">
